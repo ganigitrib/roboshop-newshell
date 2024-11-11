@@ -1,4 +1,5 @@
-source /path/to/Common.sh
+source /home/ec2-user/roboshop-newshell/common.sh
+
 
 echo -e "${COLOR}Copy Payment service file${NO_COLOR}"
 cp Payment.service /etc/systemd/system/payment.service

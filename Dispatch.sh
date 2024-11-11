@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the common functions and variables
-source /home/ec2-user/roboshop-newshell/common.sh  # Replace with the actual path
+source /home/ec2-user/roboshop-newshell/Common.sh  # Replace with the actual path
 
 
 # Define color to use for printing messages

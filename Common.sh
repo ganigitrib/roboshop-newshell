@@ -1,61 +1,33 @@
-#!/bin/bash
+# common.sh
 
 # Define color variables
-COLOR_PURPLE="\e[35m"
-COLOR_YELLOW="\e[33m"
+COLOR="\e[33m"
 NO_COLOR="\e[0m"
 
-# Function to print messages with color
+# Function to print messages in color
 print_message() {
-  local color="$1"
-  local message="$2"
-  echo -e "${color}${message}${NO_COLOR}"
+    echo -e "${COLOR}$1${NO_COLOR}"
 }
 
-# Function to install a package if it’s not already installed
+# Function to install a package
 install_package() {
-  local package="$1"
-  if ! rpm -q "$package" &>/dev/null; then
-    print_message "$COLOR_YELLOW" "Installing $package..."
-    dnf install -y "$package"
-  else
-    print_message "$COLOR_YELLOW" "$package is already installed."
-  fi
+    dnf install -y "$1"
 }
 
-# Function to create a user if it doesn’t already exist
+# Function to create a user
 create_user() {
-  local user="$1"
-  if ! id "$user" &>/dev/null; then
-    print_message "$COLOR_YELLOW" "Creating user $user..."
-    useradd "$user"
-  else
-    print_message "$COLOR_YELLOW" "User $user already exists."
-  fi
+    id "$1" &>/dev/null || useradd "$1"
 }
 
-# Function to create or clear a directory
+# Function to create a directory
 create_directory() {
-  local dir="$1"
-  print_message "$COLOR_YELLOW" "Setting up directory $dir..."
-  rm -rf "$dir"
-  mkdir -p "$dir"
+    rm -rf "$1"
+    mkdir -p "$1"
 }
 
-# Function to manage a systemd service (reload, enable, restart)
+# Function to manage a service
 manage_service() {
-  local service_name="$1"
-  print_message "$COLOR_PURPLE" "Starting and enabling service $service_name..."
-  systemctl daemon-reload
-  systemctl enable "$service_name"
-  systemctl restart "$service_name"
-}
-
-# Optional function to check if a command is available, and install it if missing
-check_command() {
-  local command="$1"
-  if ! command -v "$command" &>/dev/null; then
-    print_message "$COLOR_YELLOW" "Installing missing command: $command"
-    dnf install -y "$command"
-  fi
+    systemctl daemon-reload
+    systemctl enable "$1"
+    systemctl restart "$1"
 }
