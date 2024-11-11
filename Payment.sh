@@ -1,4 +1,5 @@
-Src Common.sh
+Source Common.sh
+
 # Copy Payment service file
 echo -e "${color}Copy Payment service file${no_color}"
 cp Payment.service /etc/systemd/system/payment.service
