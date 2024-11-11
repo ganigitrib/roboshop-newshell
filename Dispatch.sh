@@ -1,36 +1,38 @@
 #!/bin/bash
 
+# Define color variables
+COLOR='\e[1;32m'  # Green color for messages
+NO_COLOR='\e[0m'  # Reset color to default
+
 echo "Sourcing common.sh"
-source /home/ec2-user/roboshop-newshell/Common.sh
+source /home/ec2-user/roboshop-newshell/common.sh
 
-
-# Printing messages with color
-print_message "Copy Dispatch service file"
+echo -e "${COLOR}Copy Dispatch service file${NO_COLOR}"
 cp Dispatch.service /etc/systemd/system/dispatch.service
 
-print_message "Install Golang"
+echo -e "${COLOR}Install Go Language${NO_COLOR}"
 dnf install golang -y
 
-print_message "Add Application User"
+echo -e "${COLOR}Create Application User${NO_COLOR}"
 useradd roboshop
 
-print_message "Create Application Directory"
+echo -e "${COLOR}Create Application Directory${NO_COLOR}"
 rm -rf /app
 mkdir /app
 
-print_message "Download Application Content"
-curl -L -o /tmp/dispatch.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip
+echo -e "${COLOR}Download Application content${NO_COLOR}"
+curl -L -o /tmp/dispatch.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch.zip
 cd /app
 
-print_message "Extract Application Content"
+echo -e "${COLOR}Extract Application content${NO_COLOR}"
 unzip /tmp/dispatch.zip
 
-print_message "Copy Download Application Dependencies"
+echo -e "${COLOR}Build Application${NO_COLOR}"
 go mod init dispatch
 go get
 go build
 
-print_message "Start Application Dependencies"
+echo -e "${COLOR}Start Application Service${NO_COLOR}"
 systemctl daemon-reload
 systemctl enable dispatch
 systemctl restart dispatch
