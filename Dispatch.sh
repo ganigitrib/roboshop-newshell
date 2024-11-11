@@ -7,7 +7,9 @@ echo -e "\e[35m add Application User \e[0m"
  useradd roboshop
 
  echo -e "\e[35m Create Application Directory \e[0m"
+ rm -rf /app
  mkdir /app
+
 
 echo -e "\e[35m Download Application Content \e[0m"
  curl -L -o /tmp/dispatch.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip
