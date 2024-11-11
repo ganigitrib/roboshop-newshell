@@ -1,7 +1,5 @@
-Source Common.sh
+source /path/to/common.sh
 
-# Printing with colors
-# shellcheck disable=SC2154
 echo -e "${color}Copy Dispatch service file${no_color}"
 cp Dispatch.service /etc/systemd/system/dispatch.service
 
