@@ -1,26 +1,26 @@
 #!/bin/bash
 
 # Source the common functions and variables
-source /path/to/common.sh  # Update to the correct path for common.sh
+source ./common.sh  # Assuming common.sh is in the same directory
 
-# Define color to use for printing messages (update based on common.sh)
-COLOR="$COLOR_PURPLE"  # Choose COLOR_PURPLE or COLOR_YELLOW from common.sh
+# Define color to use for printing messages
+COLOR="$COLOR_PURPLE"
 
 # Copy Dispatch service file
-echo -e "${COLOR}Copy Dispatch service file${NO_COLOR}"
+print_message "$COLOR" "Copy Dispatch service file"
 cp Dispatch.service /etc/systemd/system/dispatch.service
 
 # Install Golang
 print_message "$COLOR" "Install Golang"
-install_package "golang"  # Use install_package function from common.sh
+install_package "golang"
 
 # Add Application User
 print_message "$COLOR" "Add Application User"
-create_user "roboshop"  # Use create_user function from common.sh
+create_user "roboshop"
 
 # Create Application Directory
 print_message "$COLOR" "Create Application Directory"
-create_directory "/app"  # Use create_directory function from common.sh
+create_directory "/app"
 
 # Download Application Content
 print_message "$COLOR" "Download Application Content"
@@ -41,4 +41,4 @@ go build
 
 # Start Application Service
 print_message "$COLOR" "Start Application Service"
-manage_service "dispatch"  # Use manage_service function from common.sh
+manage_service "dispatch"
