@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Ensure common.sh is sourced with the absolute path
-source /home/ec2-user/roboshop-newshell/common.sh
+echo "Sourcing common.sh"
+source /home/ec2-user/roboshop-newshell/Common.sh
+
 
 # Printing messages with color
 print_message "Copy Dispatch service file"
