@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Define color variables
-COLOR="\e[33m"          # Yellow color
+COLOR="\e[32m"          # Yellow color
 NO_COLOR="\e[0m"        # Reset color
 
 # Function to print messages in color
