@@ -1,31 +1,44 @@
-source /path/to/Common.sh
+#!/bin/bash
 
+# Source the common functions and variables
+source /path/to/common.sh  # Update to the correct path for common.sh
+
+# Define color to use for printing messages (update based on common.sh)
+COLOR="$COLOR_PURPLE"  # Choose COLOR_PURPLE or COLOR_YELLOW from common.sh
+
+# Copy Dispatch service file
 echo -e "${COLOR}Copy Dispatch service file${NO_COLOR}"
 cp Dispatch.service /etc/systemd/system/dispatch.service
 
-echo -e "${COLOR}Install Golang${NO_COLOR}"
-dnf install golang -y
+# Install Golang
+print_message "$COLOR" "Install Golang"
+install_package "golang"  # Use install_package function from common.sh
 
-echo -e "${COLOR}Add Application User${NO_COLOR}"
-useradd roboshop
+# Add Application User
+print_message "$COLOR" "Add Application User"
+create_user "roboshop"  # Use create_user function from common.sh
 
-echo -e "${COLOR}Create Application Directory${NO_COLOR}"
-rm -rf /app
-mkdir /app
+# Create Application Directory
+print_message "$COLOR" "Create Application Directory"
+create_directory "/app"  # Use create_directory function from common.sh
 
-echo -e "${COLOR}Download Application Content${NO_COLOR}"
+# Download Application Content
+print_message "$COLOR" "Download Application Content"
 curl -L -o /tmp/dispatch.zip https://roboshop-artifacts.s3.amazonaws.com/dispatch-v3.zip
-Cd /app
 
-echo -e "${COLOR}Extract Application Content${NO_COLOR}"
-unzip /tmp/dispatch.zip
+# Navigate to Application Directory
+cd /app
 
-echo -e "${COLOR}Copy Download Application Dependencies${NO_COLOR}"
+# Extract Application Content
+print_message "$COLOR" "Extract Application Content"
+unzip -o /tmp/dispatch.zip
+
+# Download and Build Application Dependencies
+print_message "$COLOR" "Download Application Dependencies"
 go mod init dispatch
 go get
 go build
 
-echo -e "${COLOR}Start Application Dependencies${NO_COLOR}"
-systemctl daemon-reload
-systemctl enable dispatch
-systemctl restart dispatch
+# Start Application Service
+print_message "$COLOR" "Start Application Service"
+manage_service "dispatch"  # Use manage_service function from common.sh
