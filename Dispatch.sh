@@ -1,4 +1,4 @@
-source /path/to/common.sh
+source /path/to/Common.sh
 
 echo -e "${COLOR}Copy Dispatch service file${NO_COLOR}"
 cp Dispatch.service /etc/systemd/system/dispatch.service

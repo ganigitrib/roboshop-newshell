@@ -1,4 +1,4 @@
-source /path/to/common.sh
+source /path/to/Common.sh
 
 echo -e "${COLOR}Copy Payment service file${NO_COLOR}"
 cp Payment.service /etc/systemd/system/payment.service
@@ -13,7 +13,7 @@ useradd roboshop
 
 
 echo -e "${COLOR}Create Application Directory${NO_COLOR}"
-rm -rf /app  # Remove if it exists to start fresh
+rm -rf /app
 mkdir /app
 
 
