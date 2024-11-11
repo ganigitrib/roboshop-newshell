@@ -1,3 +1,6 @@
+#!/bin/bash
+
+echo "Sourcing common.sh"
 source /home/ec2-user/roboshop-newshell/common.sh
 
 
