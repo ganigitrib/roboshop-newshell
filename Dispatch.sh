@@ -1,7 +1,4 @@
-# Define colors
-color="\e[35m"          # Missing closing quote fixed
-no_color="\e[0m"        # Move this to a new line
-
+Source Common.sh
 # Printing with colors
 echo -e "${color}Copy Dispatch service file${no_color}"
 cp Dispatch.service /etc/systemd/system/dispatch.service

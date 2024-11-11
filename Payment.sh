@@ -1,6 +1,4 @@
-# Define colors
-color="\e[35m"
-no_color="\e[0m"
+Source Common.sh
 
 # Copy Payment service file
 echo -e "${color}Copy Payment service file${no_color}"
