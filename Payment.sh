@@ -8,7 +8,7 @@ NO_COLOR='\e[0m'  # Reset color to default
 app_name=Payment
 
 echo "Sourcing common.sh"
-source /home/ec2-user/roboshop-newshell/common.sh
+source /home/ec2-user/roboshop-newshell/Common.sh
 
 # Copy the Payment service file to systemd directory
 echo -e "${COLOR}Copy Payment service file${NO_COLOR}"
