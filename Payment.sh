@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source common.sh
+source Common.sh
 
 # Assigning color variables
 color='\033[0;32m'  # Green
