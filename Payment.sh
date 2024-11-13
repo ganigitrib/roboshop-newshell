@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source common.sh
+source Common.sh
 app_name=Payment
 
 echo -e "$color Copy Payment Service file $no_color"
@@ -11,7 +11,7 @@ app_prerequisites
 echo $?  # Check if the prerequisites installation was successful
 
 echo -e "$color Download Application content $no_color"
-ZIP_URL="https://example.com/Payment.zip"
+ZIP_URL="https://example.com/payment.zip"
 curl -L -o /tmp/Payment.zip $ZIP_URL
 echo $?  # Check if the download was successful
 
