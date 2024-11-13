@@ -4,10 +4,10 @@
 # shellcheck disable=SC2034
 COLOR='\e[1;32m'  # Green color for messages
 NO_COLOR='\e[0m'  # Reset color to default
-app_name=Payment
+app_name=payment
 
 
-echo "Sourcing common.sh"
+echo "Sourcing Common.sh"
 source /home/ec2-user/roboshop-newshell/Common.sh
 
 # shellcheck disable=SC2154
@@ -18,7 +18,6 @@ echo $?  # Check if the copy was successful
 app_prerequisites
 echo $? # Check if the prerequisites installation was successful
 
-cd /app
 
 echo -e "$color Download Application Dependencies $no_color"
 pip3 install -r requirements.txt
