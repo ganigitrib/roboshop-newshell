@@ -32,6 +32,13 @@ app_prerequisites() {
         exit 1
     fi
 
+    # Check the file size and type
+    FILE_SIZE=$(stat -c%s "/tmp/${app_name}.zip")
+    echo -e "${COLOR}Downloaded file size: ${FILE_SIZE} bytes${NO_COLOR}"
+
+    # Print the first few bytes of the file for debugging
+    head -c 100 /tmp/${app_name}.zip
+
     echo -e "${COLOR}Extract Application content${NO_COLOR}"
     if file /tmp/${app_name}.zip | grep -q 'Zip archive data'; then
         cd /app
