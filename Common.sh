@@ -11,24 +11,32 @@ print_message() {
 
 app_prerequisites() {
     echo -e "${COLOR}Create Application User${NO_COLOR}"
-    id -u roboshop &>/dev/null || useradd roboshop  # Check if user exists before adding
-    echo $?  # Print the exit status of the previous command
+    # Add user only if it does not exist
+    id -u roboshop &>/dev/null || useradd roboshop
+    echo $?  # Output the exit code to confirm success
 
     echo -e "${COLOR}Create Application Directory${NO_COLOR}"
     rm -rf /app
     mkdir /app
-    echo $?  # Print the exit status of the previous command
+    echo $?  # Output the exit code to confirm success
 
     echo -e "${COLOR}Download Application content${NO_COLOR}"
+    # Check if app_name is set before downloading
     if [ -z "$app_name" ]; then
         echo -e "${COLOR}Error: app_name variable is not set.${NO_COLOR}"
         exit 1
     fi
     curl -L -o /tmp/${app_name}.zip https://roboshop-artifacts.s3.amazonaws.com/${app_name}.zip
-    echo $?  # Print the exit status of the previous command
+    echo $?  # Output the exit code to confirm success
 
     echo -e "${COLOR}Extract Application content${NO_COLOR}"
-    cd /app
-    unzip /tmp/${app_name}.zip
-    echo $?  # Print the exit status of the previous command
+    # Check if the downloaded file is a valid ZIP before extracting
+    if file /tmp/${app_name}.zip | grep -q 'Zip archive data'; then
+        cd /app
+        unzip /tmp/${app_name}.zip
+        echo $?  # Output the exit code to confirm success
+    else
+        echo -e "${COLOR}Error: Downloaded file is not a valid zip archive.${NO_COLOR}"
+        exit 1
+    fi
 }
