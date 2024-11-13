@@ -1,12 +1,25 @@
 #!/bin/bash
 
+# Ensure the common.sh file is present
 echo "Sourcing common.sh"
-source common.sh
-echo $?
+if [ -f common.sh ]; then
+  source common.sh
+  echo $?
+else
+  echo "common.sh not found. Exiting."
+  exit 1
+fi
 
+# Ensure the Payment service file is present
 echo "Copy Payment service file"
-cp /path/to/Payment.service /etc/systemd/system/Payment.service
-echo $?
+SERVICE_FILE_PATH="/path/to/Payment.service"
+if [ -f "$SERVICE_FILE_PATH" ]; then
+  cp $SERVICE_FILE_PATH /etc/systemd/system/Payment.service
+  echo $?
+else
+  echo "Payment.service file not found at $SERVICE_FILE_PATH. Exiting."
+  exit 1
+fi
 
 # Install Python3 and required packages
 echo "Install Python3 and required packages"
@@ -27,12 +40,13 @@ fi
 echo "Create Application Directory"
 mkdir -p /home/roboshop/payment
 echo $?
-cd /home/roboshop/payment
+Cd /Home/Roboshop/Payment
 echo $?
 
 # Download Application content
 echo "Download Application content"
-curl -L -o /tmp/Payment.zip https://example.com/Payment.zip
+ZIP_URL="https://example.com/Payment.zip"
+curl -L -o /tmp/Payment.zip $ZIP_URL
 echo $?
 
 # Check if the downloaded zip file is valid
