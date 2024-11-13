@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Ensure the common.sh file is present
-echo "Sourcing common.sh"
-if [ -f common.sh ]; then
-  source common.sh
+# Ensure the Common.sh file is present
+echo "Sourcing Common.sh"
+if [ -f Common.sh ]; then
+  source Common.sh
   echo $?
 else
-  echo "common.sh not found. Exiting."
+  echo "Common.sh not found. Exiting."
   exit 1
 fi
 
