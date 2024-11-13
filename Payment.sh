@@ -21,7 +21,7 @@ echo -e "${COLOR}Install Python3 and required packages${NO_COLOR}"
 dnf install -y python3 gcc python3-devel unzip
 echo $?
 
-# Run the app prerequisites defined in common.sh
+
 app_prerequisites
 
 # Install the application dependencies from requirements.txt
