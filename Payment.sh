@@ -1,37 +1,51 @@
 #!/bin/bash
 
 # Define color variables
-COLOR='\e[1;32m'  # Green color for messages
-NO_COLOR='\e[0m'  # Reset color to default
+COLOR="\e[32m"          # Green color
+NO_COLOR="\e[0m"        # Reset color
 
-# Define the application name
-app_name=Payment
+# Function to print messages in color
+print_message() {
+    echo -e "${COLOR}$1${NO_COLOR}"
+}
 
-echo "Sourcing common.sh"
-source /home/ec2-user/roboshop-newshell/Common.sh
+app_prerequisites() {
+    echo -e "${COLOR}Create Application User${NO_COLOR}"
+    id -u roboshop &>/dev/null || useradd roboshop
+    echo $?
 
-# Copy the Payment service file to systemd directory
-echo -e "${COLOR}Copy Payment service file${NO_COLOR}"
-cp Payment.service /etc/systemd/system/payment.service
+    echo -e "${COLOR}Create Application Directory${NO_COLOR}"
+    rm -rf /app
+    mkdir /app
+    echo $?
 
-# Install Python3 and required packages
-echo -e "${COLOR}Install Python3 and required packages${NO_COLOR}"
-dnf install -y python3 gcc python3-devel unzip
+    echo -e "${COLOR}Download Application content${NO_COLOR}"
+    if [ -z "$app_name" ]; then
+        echo -e "${COLOR}Error: app_name variable is not set.${NO_COLOR}"
+        exit 1
+    fi
 
-# Run the app prerequisites defined in common.sh
-app_prerequisites
+    curl -L -o /tmp/${app_name}.zip https://roboshop-artifacts.s3.amazonaws.com/${app_name}.zip
+    if [ $? -ne 0 ] || [ ! -s /tmp/${app_name}.zip ]; then
+        echo -e "${COLOR}Error: Failed to download ${app_name}.zip or file is empty.${NO_COLOR}"
+        exit 1
+    fi
 
-# Install the application dependencies from requirements.txt
-echo -e "${COLOR}Download Application Dependencies${NO_COLOR}"
-if [ -f "/app/requirements.txt" ]; then
-    pip3 install -r /app/requirements.txt
-else
-    echo -e "${COLOR}Error: requirements.txt not found in /app${NO_COLOR}"
-    exit 1
-fi
+    # Check the file size and type
+    FILE_SIZE=$(stat -c%s "/tmp/${app_name}.zip")
+    echo -e "${COLOR}Downloaded file size: ${FILE_SIZE} bytes${NO_COLOR}"
 
-# Start and enable the Payment service
-echo -e "${COLOR}Start Application Service${NO_COLOR}"
-systemctl daemon-reload
-systemctl enable payment
-systemctl restart payment
+    # Print the first few bytes of the file for debugging
+    head -c 100 /tmp/${app_name}.zip
+
+    # Check if file is a valid ZIP
+    if file /tmp/${app_name}.zip | grep -q 'Zip archive data'; then
+        echo -e "${COLOR}Extracting Application content...${NO_COLOR}"
+        cd /app
+        unzip /tmp/${app_name}.zip
+        echo $?
+    else
+        echo -e "${COLOR}Error: Downloaded file is not a valid zip archive.${NO_COLOR}"
+        exit 1
+    fi
+}
