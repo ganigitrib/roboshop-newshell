@@ -1,17 +1,20 @@
 #!/bin/bash
 
-source Common.sh
-app_name=Payment
+source common.sh
 
-echo -e "$color Copy Payment Service file $no_color"
+# Assigning color variables
+color='\033[0;32m'  # Green
+no_color='\033[0m'  # No color
+
+echo -e "${color}Copy Payment Service file${no_color}"
 cp Payment.service /etc/systemd/system/payment.service
 echo $?  # Check if the copy was successful
 
 app_prerequisites
 echo $?  # Check if the prerequisites installation was successful
 
-echo -e "$color Download Application content $no_color"
-ZIP_URL="https://example.com/payment.zip"
+echo -e "${color}Download Application content${no_color}"
+ZIP_URL="https://example.com/Payment.zip"
 curl -L -o /tmp/Payment.zip $ZIP_URL
 echo $?  # Check if the download was successful
 
@@ -24,7 +27,7 @@ else
   exit 1
 fi
 
-echo -e "$color Download Application Dependencies $no_color"
+echo -e "${color}Download Application Dependencies${no_color}"
 if [ -f requirements.txt ]; then
   pip3 install -r requirements.txt
   echo $?  # Check if the dependencies installation was successful
@@ -36,7 +39,7 @@ else
   echo $?  # Check if the dependencies installation was successful
 fi
 
-echo -e "$color Start Application Service $no_color"
+echo -e "${color}Start Application Service${no_color}"
 systemctl daemon-reload
 echo $?  # Check if the daemon-reload was successful
 systemctl enable payment
