@@ -1,37 +1,64 @@
 #!/bin/bash
 
-# Define color variables
-COLOR='\e[1;32m'  # Green color for messages
-NO_COLOR='\e[0m'  # Reset color to default
-
-# Define the application name
-# shellcheck disable=SC2034
-app_name=Payment
-
 echo "Sourcing common.sh"
-source /home/ec2-user/roboshop-newshell/Common.sh
+source common.sh
+echo $?
 
-# Copy the Payment service file to systemd directory
-echo -e "${COLOR}Copy Payment service file${NO_COLOR}"
-cp Payment.service /etc/systemd/system/payment.service
+echo "Copy Payment service file"
+cp /path/to/Payment.service /etc/systemd/system/Payment.service
 echo $?
 
 # Install Python3 and required packages
-echo -e "${COLOR}Install Python3 and required packages${NO_COLOR}"
-dnf install -y python3 gcc python3-devel unzip
+echo "Install Python3 and required packages"
+yum install -y python3 gcc python3-devel unzip
 echo $?
 
+# Create Application User
+echo "Create Application User"
+id roboshop &>/dev/null
+if [ $? -ne 0 ]; then
+  useradd roboshop
+  echo $?
+else
+  echo "User 'roboshop' already exists"
+fi
 
-app_prerequisites
-
-# Install the application dependencies from requirements.txt
-echo -e "${COLOR}Download Application Dependencies${NO_COLOR}"
-pip3 install -r requirements.txt
+# Create Application Directory
+echo "Create Application Directory"
+mkdir -p /home/roboshop/payment
+echo $?
+cd /home/roboshop/payment
 echo $?
 
-# Start and enable the Payment service
-echo -e "${COLOR}Start Application Service${NO_COLOR}"
+# Download Application content
+echo "Download Application content"
+curl -L -o /tmp/Payment.zip https://example.com/Payment.zip
+echo $?
+
+# Check if the downloaded zip file is valid
+if unzip -t /tmp/Payment.zip; then
+  unzip /tmp/Payment.zip
+  echo $?
+else
+  echo "Error: Invalid zip file. Exiting."
+  exit 1
+fi
+
+# Download Application Dependencies
+echo "Download Application Dependencies"
+if [ -f requirements.txt ]; then
+  pip3 install -r requirements.txt
+  echo $?
+else
+  echo "Error: requirements.txt not found. Exiting."
+  exit 1
+fi
+
+# Start Application Service
+echo "Start Application Service"
 systemctl daemon-reload
-systemctl enable payment
-systemctl restart payment
+echo $?
+systemctl enable Payment
+echo $?
+systemctl start Payment
 echo $?
